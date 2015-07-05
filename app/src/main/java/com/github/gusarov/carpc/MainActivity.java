@@ -12,8 +12,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        CarPcService.ensureServiceRunning(this, "A");
-        CarPcService.ensureServiceRunning(this, "B");
+        CarPcService.ensureServiceRunning(this);
     }
 
 

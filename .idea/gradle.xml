@@ -10,6 +10,8 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/external/usb-serial-for-android/usbSerialExamples" />
+            <option value="$PROJECT_DIR$/external/usb-serial-for-android/usbSerialForAndroid" />
           </set>
         </option>
       </GradleProjectSettings>
