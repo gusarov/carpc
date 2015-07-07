@@ -7,9 +7,9 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
 import android.util.Log;
 
-public class PermissionReceiver extends BroadcastReceiver
+public class permissionReceiver extends BroadcastReceiver
 {
-    private static final String TAG = PermissionReceiver.class.getSimpleName();
+    private static final String TAG = permissionReceiver.class.getSimpleName();
     private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
 
     public void onReceive(Context ctx, Intent intent)
@@ -23,7 +23,7 @@ public class PermissionReceiver extends BroadcastReceiver
                 if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
                     if (device != null){
                         Log.i(TAG, "permission granted for device " + device);
-                        // call method to set up device communication
+                        CarPcService.ensureServiceRunning(ctx);
                     }
                 }
                 else {

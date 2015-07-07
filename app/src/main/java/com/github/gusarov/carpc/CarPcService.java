@@ -67,24 +67,22 @@ public class CarPcService extends IntentService {
     boolean terminatedProperly;
 
     private void workLoad() {
-        while (true) {
-            try {
-                Log.i(TAG, "workLoad - Scanning for drivers...");
-                UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
-                List<UsbSerialDriver> availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager);
+        try {
+            Log.i(TAG, "workLoad - Scanning for drivers...");
+            UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
+            List<UsbSerialDriver> availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager);
 
-                Log.v(TAG, availableDrivers.size() + " usb drivers");
-                for (int i = 0; i < availableDrivers.size(); i++) {
-                    Log.v(TAG, "tryDriver " + i);
-                    tryDriver(manager, availableDrivers.get(i));
-                }
-                Log.i(TAG, "USB Controller not found. Waiting.");
-            } catch (Exception e) {
-                Log.e(TAG, "Exception", e);
+            Log.v(TAG, availableDrivers.size() + " usb drivers");
+            for (int i = 0; i < availableDrivers.size(); i++) {
+                Log.v(TAG, "tryDriver " + i);
+                tryDriver(manager, availableDrivers.get(i));
             }
+            Log.i(TAG, "USB Controller not found. Service Shutdown.");
+            terminatedProperly = true;
+        } catch (Exception e) {
+            Log.e(TAG, "Exception", e);
             SystemClock.sleep(5000);
         }
-        // terminatedProperly = true;
     }
 
     void tryDriver(UsbManager manager, UsbSerialDriver driver) {
@@ -92,7 +90,7 @@ public class CarPcService extends IntentService {
         if (!manager.hasPermission(device)) {
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
             manager.requestPermission(device, pendingIntent);
-            return; // try other and sleep
+            return; // try other and shutdown until permission manager broadcast an approve
         }
         UsbDeviceConnection connection = manager.openDevice(device);
         if (connection == null) {

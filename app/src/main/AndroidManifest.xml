@@ -12,7 +12,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <receiver android:name=".AutoStartReceiver" >
+        <receiver android:name=".autoStartReceiver" >
             <intent-filter>
                 <action android:name="com.github.gusarov.carpc.action.YouWillNeverKillMe.CarPcService" />
             </intent-filter>
@@ -45,7 +45,7 @@
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </receiver>
-        <receiver android:name=".PermissionReceiver" >
+        <receiver android:name=".permissionReceiver" >
             <intent-filter>
                 <action android:name="com.android.example.USB_PERMISSION" />
             </intent-filter>
@@ -59,6 +59,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/device_filter" />
         </activity>
 
         <service
