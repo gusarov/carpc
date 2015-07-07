@@ -1,55 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.github.gusarov.carpc"
-    android:permission="android.permission.RECEIVE_BOOT_COMPLETED"
-    >
+    android:permission="android.permission.RECEIVE_BOOT_COMPLETED" >
 
     <uses-feature android:name="android.hardware.usb.host" />
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <receiver android:name=".autoStart">
+        <receiver android:name=".AutoStartReceiver" >
             <intent-filter>
-                <action android:name="com.github.gusarov.carpc.action.YouWillNeverKillMe" />
+                <action android:name="com.github.gusarov.carpc.action.YouWillNeverKillMe.CarPcService" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.github.gusarov.carpc.action.YouWillNeverKillMe.AudioService" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
-                <data android:scheme="package"  />
+
+                <data android:scheme="package" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-                <data android:scheme="package"  />
+
+                <data android:scheme="package" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".serviceRestart">
+        <receiver android:name=".ServiceRestartReceiver" >
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_DETACHED" />
             </intent-filter>
-            <meta-data android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
         </receiver>
+        <receiver android:name=".PermissionReceiver" >
+            <intent-filter>
+                <action android:name="com.android.example.USB_PERMISSION" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".CarPcService"
             android:exported="false" >
         </service>
+        <service
+            android:name=".AudioService"
+            android:exported="false" >
+        </service>
+        <service
+            android:name=".ProcessingService"
+            android:exported="false" >
+        </service>
     </application>
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
 </manifest>

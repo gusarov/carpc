@@ -5,12 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-public class autoStart extends BroadcastReceiver
+public class AutoStartReceiver extends BroadcastReceiver
 {
     public void onReceive(Context ctx, Intent intent)
     {
-        Log.i("autoStart", "received " + intent.getAction());
+        String action = intent.getAction();
+        Log.i("autoStart", "received " + action);
         CarPcService.ensureServiceRunning(ctx);
+        AudioService.ensureServiceRunning(ctx);
     }
 
 }

@@ -1,8 +1,10 @@
 package com.github.gusarov.carpc;
 
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.Context;
+import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 import android.os.SystemClock;
@@ -15,8 +17,10 @@ import com.hoho.android.usbserial.driver.UsbSerialProber;
 import java.io.IOException;
 import java.util.List;
 
+
 public class CarPcService extends IntentService {
     private static final String TAG = CarPcService.class.getSimpleName();
+    private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
 
     public static void ensureServiceRunning(Context ctx) {
         Log.v(TAG, "start service...");
@@ -49,9 +53,9 @@ public class CarPcService extends IntentService {
         super.onDestroy();
         if (!terminatedProperly) {
             Intent intent = new Intent();
-            intent.setAction("com.github.gusarov.carpc.action.YouWillNeverKillMe");
+            intent.setAction("com.github.gusarov.carpc.action.YouWillNeverKillMe.CarPcService");
             sendBroadcast(intent);
-            Log.w(TAG, "YouWillNeverKillMe intent sent...");
+            Log.w(TAG, "YouWillNeverKillMe.CarPcService intent sent...");
         }
     }
 
@@ -64,23 +68,33 @@ public class CarPcService extends IntentService {
 
     private void workLoad() {
         while (true) {
-            Log.i(TAG, "workLoad - Scanning for drivers...");
-            UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
-            List<UsbSerialDriver> availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager);
+            try {
+                Log.i(TAG, "workLoad - Scanning for drivers...");
+                UsbManager manager = (UsbManager) getSystemService(Context.USB_SERVICE);
+                List<UsbSerialDriver> availableDrivers = UsbSerialProber.getDefaultProber().findAllDrivers(manager);
 
-            Log.v(TAG, availableDrivers.size() + " usb drivers");
-            for (int i = 0; i < availableDrivers.size(); i++) {
-                Log.v(TAG, "tryDriver " + i);
-                tryDriver(manager, availableDrivers.get(i));
+                Log.v(TAG, availableDrivers.size() + " usb drivers");
+                for (int i = 0; i < availableDrivers.size(); i++) {
+                    Log.v(TAG, "tryDriver " + i);
+                    tryDriver(manager, availableDrivers.get(i));
+                }
+                Log.i(TAG, "USB Controller not found. Waiting.");
+            } catch (Exception e) {
+                Log.e(TAG, "Exception", e);
             }
-            Log.e(TAG, "terminating - arduino not found. Waiting.");
             SystemClock.sleep(5000);
         }
         // terminatedProperly = true;
     }
 
     void tryDriver(UsbManager manager, UsbSerialDriver driver) {
-        UsbDeviceConnection connection = manager.openDevice(driver.getDevice());
+        UsbDevice device = driver.getDevice();
+        if (!manager.hasPermission(device)) {
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+            manager.requestPermission(device, pendingIntent);
+            return; // try other and sleep
+        }
+        UsbDeviceConnection connection = manager.openDevice(device);
         if (connection == null) {
             Log.e(TAG, "connection == null. You probably need to call UsbManager.requestPermission(driver.getDevice(), ..)");
             return;
@@ -128,3 +142,4 @@ public class CarPcService extends IntentService {
 
     }
 }
+
