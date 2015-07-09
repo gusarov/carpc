@@ -1,9 +1,3 @@
 [submodule "external/usb-serial-for-android"]
 	path = external/usb-serial-for-android
-	url = https://github.com/mik3y/usb-serial-for-android.git
-[submodule "external/ytai-ioio"]
-	path = external/ytai-ioio
-	url = https://github.com/ytai/ioio.git
-[submodule "external/android-serialport-api.git"]
-	path = external/android-serialport-api.git
-	url = https://github.com/gusarov/android-serialport-api.git
+	url = https://github.com/gusarov/usb-serial-for-android.git

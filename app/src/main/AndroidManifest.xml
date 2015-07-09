@@ -24,12 +24,10 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
-
                 <data android:scheme="package" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
-
                 <data android:scheme="package" />
             </intent-filter>
         </receiver>
@@ -40,7 +38,6 @@
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_DETACHED" />
             </intent-filter>
-
             <meta-data
                 android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
                 android:resource="@xml/device_filter" />
@@ -52,6 +49,7 @@
         </receiver>
 
         <activity
+            android:launchMode="singleInstance"
             android:name=".MainActivity"
             android:label="@string/title_activity_main" >
             <intent-filter>
