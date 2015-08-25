@@ -1,0 +1,14 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto"
+      xmlns:tools="http://schemas.android.com/tools"
+      tools:context="com.github.gusarov.carpc.ResistiveSettingsActivity">
+    <item android:id="@+id/action_resistive_test1"
+          android:title="@string/action_resistive_settings_test_click1"
+        />
+    <item android:id="@+id/action_resistive_test2"
+          android:title="@string/action_resistive_settings_test_click2"
+        />
+    <item android:id="@+id/action_resistive_reset"
+          android:title="@string/action_resistive_settings_reset"
+        />
+</menu>
