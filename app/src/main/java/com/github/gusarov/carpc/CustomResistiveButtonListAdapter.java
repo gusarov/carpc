@@ -82,10 +82,12 @@ public class CustomResistiveButtonListAdapter extends ArrayAdapter<ResistiveButt
 			holder.commandCodeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-					if(initializedAdapter !=parentView.getAdapter() ) {
-						initializedAdapter = parentView.getAdapter();
+					/*
+					if (initializedAdapter != parent.getAdapter()) {
+						initializedAdapter = parent.getAdapter();
 						return;
 					}
+					*/
 					ResistiveButtonViewModel model = (ResistiveButtonViewModel)parent.getTag();
 					Command cmd = _commands.get(position);
 					Log.d(TAG, "selected item " + position + " " + cmd.getCode() + " set it to model " + model.getName() + " avg " + model.getAvg());
@@ -115,7 +117,7 @@ public class CustomResistiveButtonListAdapter extends ArrayAdapter<ResistiveButt
 		holder.nameView.setText(item.getName());
 
 		if (item.getLast()) {
-			convertView.setBackgroundColor(Color.BLUE);
+			convertView.setBackgroundColor(0x7700FF00);
 		} else {
 			convertView.setBackgroundColor(0);
 		}
