@@ -20,20 +20,21 @@ import java.util.UUID;
 public class ResistiveSettingsActivity extends ActionBarActivity implements Handler.Callback {
 	private static final String TAG = ResistiveSettingsActivity.class.getSimpleName();
 
-	CarPcApplication _appState;
-	CustomResistiveButtonListAdapter _adapter;
-	ListView _listView;
+	private CarPcApplication _appState;
 	private List<ResistiveButtonViewModel> _buttons;
+	private CustomResistiveButtonListAdapter _adapter;
+	private ListView _listView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		_appState = ((CarPcApplication)getApplicationContext());
+
 		setContentView(R.layout.activity_resistive_settings);
 
+		_appState = ((CarPcApplication)getApplicationContext());
 		_buttons = new ArrayList<>();
-		_listView = (ListView) this.findViewById(R.id._listView);
 		_adapter = new CustomResistiveButtonListAdapter(this, R.layout.list_row_layout, _buttons);
+		_listView = (ListView) this.findViewById(R.id._listView);
 		_listView.setAdapter(_adapter);
 	}
 
@@ -83,9 +84,11 @@ public class ResistiveSettingsActivity extends ActionBarActivity implements Hand
 			button = new ResistiveButtonViewModel(new ResistiveButtonInfo(UUID.randomUUID(), "New Button", rbCode, null));
 			_adapter.add(button);
 			ResistiveButtonsManager.getInstance().save(this, button.getButtonInfo());
+		} else {
+			Log.d(TAG, "analyzeAndUpdateList add point");
+			button.addPoint(rbCode);
 		}
-		Log.d(TAG, "analyzeAndUpdateList add point && set last");
-		button.addPoint(rbCode);
+		Log.d(TAG, "analyzeAndUpdateList set last");
 		button.setLast(true);
 		_adapter.notifyDataSetChanged();
 	}
@@ -102,6 +105,7 @@ public class ResistiveSettingsActivity extends ActionBarActivity implements Hand
 		for (int i = 0; i < buttons.size(); i++) {
 			_adapter.add(new ResistiveButtonViewModel(buttons.get(i)));
 		}
+		_adapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -138,6 +142,10 @@ public class ResistiveSettingsActivity extends ActionBarActivity implements Hand
 		if (id == R.id.action_resistive_reset) {
 			ResistiveButtonsManager.getInstance().reset(this);
 			fillFromSettings();
+			return true;
+		}
+		if (id == R.id.action_resistive_notify) {
+			_adapter.notifyDataSetChanged();
 			return true;
 		}
 

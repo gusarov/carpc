@@ -8,6 +8,7 @@
     <string name="action_resistive_settings_test_click1">Test 100</string>
     <string name="action_resistive_settings_test_click2">Test 200</string>
     <string name="action_resistive_settings_reset">Reset</string>
+    <string name="action_resistive_settings_notify">Notify List</string>
     <string name="preference_file_key">prefs</string>
     <string name="preference_controller_connected">controller_connected</string>
     <string name="local_service_started">CarPC service started</string>

@@ -1,5 +1,7 @@
 package com.github.gusarov.carpc;
 
+import android.util.Log;
+
 import com.github.gusarov.carpc.Commands.Command;
 
 import java.util.ArrayList;
@@ -31,7 +33,8 @@ public class ResistiveButtonViewModel {
 			for (Integer mark : values) {
 				sum += mark;
 			}
-			return sum.doubleValue() / values.size();
+			double r = sum.doubleValue() / values.size();
+			return r;
 		}
 		return sum;
 	}
@@ -75,6 +78,7 @@ public class ResistiveButtonViewModel {
 
 	public void setCommand(Command command)
 	{
+		Log.i("RB", "Change command of " + getAvg() + " to " + (command == null ? "<null>" : command.getCode()));
 		getButtonInfo().Command = command;
 	}
 

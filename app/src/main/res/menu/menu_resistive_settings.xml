@@ -11,4 +11,7 @@
     <item android:id="@+id/action_resistive_reset"
           android:title="@string/action_resistive_settings_reset"
         />
+    <item android:id="@+id/action_resistive_notify"
+          android:title="@string/action_resistive_settings_notify"
+        />
 </menu>
