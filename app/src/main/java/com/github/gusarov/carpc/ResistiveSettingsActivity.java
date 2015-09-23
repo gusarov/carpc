@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 
@@ -135,6 +136,12 @@ public class ResistiveSettingsActivity extends ActionBarActivity implements Hand
 		}
 		if (id == R.id.action_resistive_test2) {
 			msg.arg1 = 200;
+			_appState.getHandler().sendMessage(msg);
+			ProcessingService.startActionResistiveButton(this, msg.arg1);
+			return true;
+		}
+		if (id == R.id.action_resistive_testRandom) {
+			msg.arg1 = new Random().nextInt();
 			_appState.getHandler().sendMessage(msg);
 			ProcessingService.startActionResistiveButton(this, msg.arg1);
 			return true;

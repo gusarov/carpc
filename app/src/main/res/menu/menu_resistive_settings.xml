@@ -8,6 +8,9 @@
     <item android:id="@+id/action_resistive_test2"
           android:title="@string/action_resistive_settings_test_click2"
         />
+    <item android:id="@+id/action_resistive_testRandom"
+          android:title="@string/action_resistive_settings_test_clickRandom"
+        />
     <item android:id="@+id/action_resistive_reset"
           android:title="@string/action_resistive_settings_reset"
         />
